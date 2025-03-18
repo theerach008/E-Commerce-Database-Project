@@ -1,0 +1,64 @@
+-- Create the e-commerce database
+CREATE DATABASE ecommerce;
+USE ecommerce;
+
+-- Users Table
+create table users (
+	user_id int primary key auto_increment ,
+    first_name varchar (50),
+    last_name varchar (50),
+    email varchar (50) unique,
+    password_hash varchar (50),
+    address text ,
+    phone_number varchar(15),
+    account_creation_date timestamp default current_timestamp ,
+    user_role enum ('admin','customer') Not null ) ;
+    
+insert into users (first_name , last_name , email , password_hash, address , phone_number  , user_role)
+values('Theerach','kumar','theerach008@gmail.com','******','*** tamil nadu', '9475588888','admin' );
+INSERT INTO users (first_name, last_name, email, password_hash, address, phone_number, user_role)  
+VALUES  
+('Admin1', 'User', 'admin1@example.com', 'hashed_admin1', '123 Admin St, Chennai', '9876543210', 'admin'),  
+('Admin2', 'User', 'admin2@example.com', 'hashed_admin2', '456 Admin St, Bangalore', '8765432109', 'admin'),  
+('John', 'Doe', 'john.doe@example.com', 'hashed_customer1', '101 Customer St, Mumbai', '7654321098', 'customer'),  
+('Jane', 'Smith', 'jane.smith@example.com', 'hashed_customer2', '202 Customer St, Delhi', '6543210987', 'customer'),  
+('Raj', 'Kumar', 'raj.kumar@example.com', 'hashed_customer3', '303 Customer St, Hyderabad', '5432109876', 'customer'),  
+('Priya', 'Sharma', 'priya.sharma@example.com', 'hashed_customer4', '404 Customer St, Kolkata', '4321098765', 'customer'),  
+('Ali', 'Khan', 'ali.khan@example.com', 'hashed_customer5', '505 Customer St, Pune', '3210987654', 'customer');  
+
+-- category_id (PK), category_name, category_description
+create table Categories (
+	category_id int primary key auto_increment,
+    category_name varchar (50) ,
+    category_description text);
+INSERT INTO Categories ( category_name, category_description) VALUES
+( 'Electronics', 'Devices and gadgets such as mobile phones, laptops, and accessories.'),
+( 'Clothing', 'Men and women clothing including shirts, jeans, and jackets.'),
+( 'Home Appliances', 'Kitchen and home appliances like washing machines, refrigerators.'),
+( 'Books', 'Educational, fictional, and non-fictional books.'),
+( 'Sports', 'Sportswear, gym equipment, and outdoor gear.');
+
+create table products (
+	product_id int primary key auto_increment ,
+    product_name varchar (50) ,
+    description text ,
+    price decimal(10,2) ,
+    stock_quantity int ,
+    category_id int ,
+    image_url varchar(300),
+    foreign key (category_id) references Categories(category_id) );
+
+INSERT INTO Products (product_name, description, price, stock_quantity, category_id, image_url) VALUES
+('iPhone 14', 'Latest Apple smartphone with A15 Bionic chip.', 999.99, 500, 1, 'images/iphone14.jpg'),
+('Samsung Galaxy S23', 'Flagship Samsung phone with an advanced camera.', 899.99, 400, 1, 'images/s23.jpg'),
+('Men\'s Denim Jacket', 'Stylish and durable denim jacket for men.', 49.99, 600, 2, 'images/denim_jacket.jpg'),
+('Women\'s Summer Dress', 'Lightweight and comfortable dress for summer.', 39.99, 700, 2, 'images/summer_dress.jpg'),
+('Microwave Oven', 'Compact and powerful oven for daily cooking.', 199.99, 300, 3, 'images/microwave.jpg'),
+('Refrigerator 300L', 'Energy-efficient refrigerator with ample storage.', 499.99, 250, 3, 'images/fridge.jpg'),
+('Fiction Book - The Alchemist', 'Best-selling novel by Paulo Coelho.', 19.99, 800, 4, 'images/alchemist.jpg'),
+('Python Programming Book', 'Comprehensive guide to learning Python.', 29.99, 750, 4, 'images/python_book.jpg'),
+('Treadmill', 'High-performance treadmill for home workouts.', 699.99, 200, 5, 'images/treadmill.jpg'),
+('Basketball', 'Durable and high-quality basketball.', 29.99, 900, 5, 'images/basketball.jpg');
+
+
+
