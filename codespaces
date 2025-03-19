@@ -99,3 +99,97 @@ INSERT INTO Order_Items (order_id, product_id, quantity, price_at_time_of_order)
 (5, 5, 1, 45.50);
 
 select * from order_Items ;
+
+-- payment_id (PK), order_id (FK), payment_method (credit card, PayPal, etc.), payment_status (completed, pending, failed), payment_date, amount
+CREATE TABLE Payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY, 
+    order_id INT,
+    payment_method ENUM('credit_card', 'paypal', 'bank_transfer'),
+    payment_status ENUM('completed', 'pending', 'failed'),
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id)
+);
+INSERT INTO Payments (order_id, payment_method, payment_status, amount) VALUES
+(1, 'credit_card', 'completed', 1500.99),
+(2, 'paypal', 'completed', 2999.49),
+(3, 'bank_transfer', 'pending', 850.00),
+(4, 'credit_card', 'failed', 450.75),
+(5, 'paypal', 'completed', 999.99);
+
+select * from payments ;
+
+-- shipping_id (PK), order_id (FK), shipping_date, delivery_date, shipping_status (shipped, in transit, delivered), shipping_provider
+CREATE TABLE Shipping (
+    shipping_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    shipping_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    delivery_date TIMESTAMP,
+    shipping_status ENUM('shipped', 'in transit', 'delivered'),
+    shipping_provider VARCHAR(100),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id)
+);
+
+INSERT INTO Shipping (order_id, shipping_date, delivery_date, shipping_status, shipping_provider) VALUES
+(1, '2025-03-18 10:00:00', NULL, 'shipped', 'FedEx'),
+(2, '2025-03-17 08:30:00', '2025-03-18 15:00:00', 'delivered', 'DHL'),
+(3, '2025-03-16 12:45:00', '2025-03-17 14:20:00', 'delivered', 'Blue Dart'),
+(4, '2025-03-15 09:10:00', NULL, 'in transit', 'India Post'),
+(5, '2025-03-14 11:00:00', '2025-03-16 16:45:00', 'delivered', 'Ecom Express');
+select * from shipping;
+
+-- Columns: cart_id (PK), user_id (FK), product_id (FK), quantity
+CREATE TABLE Shopping_Cart (
+    cart_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id) );
+    
+INSERT INTO Shopping_Cart (user_id, product_id, quantity) VALUES
+(1, 1, 1),
+(2, 3, 2),
+(3, 5, 1),
+(4, 2, 1),
+(5, 4, 3);
+
+select * from shopping_cart ;
+
+-- Columns: inventory_id (PK), product_id (FK), quantity_in_stock, reorder_level
+ create table inventory (
+	inventory_id int primary key auto_increment ,
+    product_id int ,
+    quantity_in_stock int ,
+    reorder_level int,
+    foreign key (product_id) references products(product_id) );
+    
+-- Insert Inventory Data
+INSERT INTO Inventory (product_id, quantity_in_stock, reorder_level) VALUES
+(1, 20, 5), 
+(2, 50, 10),
+(3, 100, 15),
+(4, 200, 20),
+(5, 150, 25);
+
+select * from Inventory;
+
+-- Columns: review_id (PK), product_id (FK), user_id (FK), rating (1-5), review_text, review_date (default: current timestamp)
+
+CREATE TABLE Reviews (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    user_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    review_text TEXT,
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) );
+INSERT INTO Reviews (product_id, user_id, rating, review_text) VALUES
+(1, 1, 5, 'Excellent laptop, very fast and reliable.'),
+(2, 2, 4, 'Great smartphone, but battery life could be better.'),
+(3, 3, 3, 'Average headphones, decent sound but not great noise cancellation.'),
+(4, 4, 5, 'Very comfortable T-shirt, fits perfectly.'),
+(5, 5, 4, 'Good quality jeans, but slightly expensive.');
+
+select * from Reviews ;
