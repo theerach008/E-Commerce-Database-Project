@@ -1,0 +1,58 @@
+USE ecommerce;
+
+-- Insert Users
+INSERT INTO Users (first_name, last_name, email, password_hash, address, phone_number, user_role) VALUES
+('Arun', 'Kumar', 'arun.kumar@example.com', 'hashedpassword1', '123 Street, Chennai', '9876543210', 'customer'),
+('Priya', 'Sharma', 'priya.sharma@example.com', 'hashedpassword2', '456 Avenue, Mumbai', '8765432109', 'customer'),
+('Raj', 'Verma', 'raj.verma@example.com', 'hashedpassword3', '789 Road, Delhi', '7654321098', 'customer');
+
+-- Insert Categories
+INSERT INTO Categories (category_name, category_description) VALUES
+('Electronics', 'Devices and gadgets'),
+('Clothing', 'Apparel and accessories'),
+('Home & Kitchen', 'Household items and kitchenware');
+
+-- Insert Products
+INSERT INTO Products (product_name, description, price, stock_quantity, category_id, image_url) VALUES
+('Laptop', 'High performance laptop', 750.50, 20, 1, 'laptop.jpg'),
+('Smartphone', 'Latest model smartphone', 2999.49, 50, 1, 'smartphone.jpg');
+
+-- Insert Orders
+INSERT INTO Orders (user_id, status, shipping_address, total_amount) VALUES
+(1, 'pending', '123 Main Street, Chennai', 1500.99),
+(2, 'shipped', '456 Elm Street, Bangalore', 2999.49);
+
+-- Insert Order Items
+INSERT INTO Order_Items (order_id, product_id, quantity, price_at_time_of_order) VALUES
+(1, 1, 2, 750.50),
+(2, 2, 1, 2999.49);
+
+-- Insert Payments
+INSERT INTO Payments (order_id, payment_method, payment_status, amount) VALUES
+(1, 'credit_card', 'completed', 1500.99),
+(2, 'paypal', 'completed', 2999.49);
+
+-- Insert Shipping
+INSERT INTO Shipping (order_id, shipping_date, delivery_date, shipping_status, shipping_provider) VALUES
+(1, '2025-03-18 10:00:00', NULL, 'shipped', 'FedEx'),
+(2, '2025-03-17 08:30:00', '2025-03-18 15:00:00', 'delivered', 'DHL'),
+(3, '2025-03-16 12:45:00', '2025-03-17 14:20:00', 'delivered', 'Blue Dart'),
+(4, '2025-03-15 09:10:00', NULL, 'in transit', 'India Post'),
+(5, '2025-03-14 11:00:00', '2025-03-16 16:45:00', 'delivered', 'Ecom Express');
+select * from shipping;
+
+-- Insert Shopping_Cart
+INSERT INTO Shopping_Cart (user_id, product_id, quantity) VALUES
+(1, 1, 1),
+(2, 3, 2),
+(3, 5, 1),
+(4, 2, 1),
+(5, 4, 3);
+
+-- Insert Inventory
+INSERT INTO Inventory (product_id, quantity_in_stock, reorder_level) VALUES
+(1, 20, 5), 
+(2, 50, 10),
+(3, 100, 15),
+(4, 200, 20),
+(5, 150, 25);
