@@ -1,3 +1,4 @@
-DROP DATABASE theerach;
-CREATE DATABASE Theerach;
-USE Theerach;
+-- Create the e-commerce database
+show databases ;
+CREATE DATABASE ecommerce;
+USE ecommerce;
