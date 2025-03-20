@@ -1,0 +1,6 @@
+DELIMITER //
+CREATE PROCEDURE order_summary (IN product_IDs INT)
+BEGIN
+    SELECT * FROM order_items WHERE product_id = product_IDs;
+END //
+DELIMITER ;
