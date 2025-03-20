@@ -1,0 +1,106 @@
+-- Users Table
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(50) UNIQUE,
+    password_hash VARCHAR(50),
+    address TEXT,
+    phone_number VARCHAR(15),
+    account_creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_role ENUM('admin', 'customer') NOT NULL
+);
+
+-- Categories Table
+CREATE TABLE Categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(50),
+    category_description TEXT
+);
+
+-- Products Table
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(50),
+    description TEXT,
+    price DECIMAL(10,2),
+    stock_quantity INT,
+    category_id INT,
+    image_url VARCHAR(300),
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id)
+);
+
+-- Orders Table
+CREATE TABLE Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'shipped', 'delivered', 'cancelled') NOT NULL,
+    shipping_address TEXT,
+    total_amount DECIMAL(10,2),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+-- Order Items Table
+CREATE TABLE Order_Items (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price_at_time_of_order DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+-- Payments Table
+CREATE TABLE Payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY, 
+    order_id INT,
+    payment_method ENUM('credit_card', 'paypal', 'bank_transfer'),
+    payment_status ENUM('completed', 'pending', 'failed'),
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id)
+);
+
+-- Shipping Table
+CREATE TABLE Shipping (
+    shipping_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    shipping_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    delivery_date TIMESTAMP,
+    shipping_status ENUM('shipped', 'in transit', 'delivered'),
+    shipping_provider VARCHAR(100),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id)
+);
+
+-- Shopping Cart Table
+CREATE TABLE Shopping_Cart (
+    cart_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+-- Inventory Table
+CREATE TABLE Inventory (
+    inventory_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
+    quantity_in_stock INT,
+    reorder_level INT,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+-- Reviews Table
+CREATE TABLE Reviews (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    user_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    review_text TEXT,
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
