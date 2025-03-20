@@ -2,35 +2,55 @@ USE ecommerce;
 
 -- Insert Users
 INSERT INTO Users (first_name, last_name, email, password_hash, address, phone_number, user_role) VALUES
+('Theerach', 'Kumar', 'theerach008@gmail.com', '******', 'Tamil Nadu', '9475588888', 'admin'),
 ('Arun', 'Kumar', 'arun.kumar@example.com', 'hashedpassword1', '123 Street, Chennai', '9876543210', 'customer'),
 ('Priya', 'Sharma', 'priya.sharma@example.com', 'hashedpassword2', '456 Avenue, Mumbai', '8765432109', 'customer'),
-('Raj', 'Verma', 'raj.verma@example.com', 'hashedpassword3', '789 Road, Delhi', '7654321098', 'customer');
+('Raj', 'Verma', 'raj.verma@example.com', 'hashedpassword3', '789 Road, Delhi', '7654321098', 'customer'),
+('Meera', 'Nair', 'meera.nair@example.com', 'hashedpassword4', '101 Lane, Hyderabad', '6543210987', 'customer'),
+('Vikram', 'Singh', 'vikram.singh@example.com', 'hashedpassword5', '202 Boulevard, Kolkata', '5432109876', 'customer');
+
 
 -- Insert Categories
 INSERT INTO Categories (category_name, category_description) VALUES
 ('Electronics', 'Devices and gadgets'),
 ('Clothing', 'Apparel and accessories'),
-('Home & Kitchen', 'Household items and kitchenware');
+('Home & Kitchen', 'Household items and kitchenware'),
+('Books', 'Various genres of books'),
+('Sports & Outdoors', 'Equipment and gear for outdoor activities');
+
 
 -- Insert Products
 INSERT INTO Products (product_name, description, price, stock_quantity, category_id, image_url) VALUES
 ('Laptop', 'High performance laptop', 750.50, 20, 1, 'laptop.jpg'),
-('Smartphone', 'Latest model smartphone', 2999.49, 50, 1, 'smartphone.jpg');
+('Smartphone', 'Latest model smartphone', 2999.49, 50, 1, 'smartphone.jpg'),
+('Headphones', 'Noise cancelling headphones', 150.75, 100, 1, 'headphones.jpg'),
+('T-shirt', 'Cotton T-shirt', 20.99, 200, 2, 'tshirt.jpg'),
+('Jeans', 'Denim jeans', 45.50, 150, 2, 'jeans.jpg');
+
 
 -- Insert Orders
 INSERT INTO Orders (user_id, status, shipping_address, total_amount) VALUES
 (1, 'pending', '123 Main Street, Chennai', 1500.99),
-(2, 'shipped', '456 Elm Street, Bangalore', 2999.49);
+(2, 'shipped', '456 Elm Street, Bangalore', 2999.49),
+(3, 'delivered', '789 Oak Street, Delhi', 850.00),
+(4, 'cancelled', '321 Pine Street, Hyderabad', 450.75),
+(5, 'pending', '654 Maple Street, Kolkata', 999.99);
 
 -- Insert Order Items
 INSERT INTO Order_Items (order_id, product_id, quantity, price_at_time_of_order) VALUES
 (1, 1, 2, 750.50),
-(2, 2, 1, 2999.49);
+(2, 2, 1, 2999.49),
+(3, 3, 3, 150.75),
+(4, 4, 2, 20.99),
+(5, 5, 1, 45.50);
 
 -- Insert Payments
 INSERT INTO Payments (order_id, payment_method, payment_status, amount) VALUES
 (1, 'credit_card', 'completed', 1500.99),
-(2, 'paypal', 'completed', 2999.49);
+(2, 'paypal', 'completed', 2999.49),
+(3, 'bank_transfer', 'pending', 850.00),
+(4, 'credit_card', 'failed', 450.75),
+(5, 'paypal', 'completed', 999.99);
 
 -- Insert Shipping
 INSERT INTO Shipping (order_id, shipping_date, delivery_date, shipping_status, shipping_provider) VALUES
