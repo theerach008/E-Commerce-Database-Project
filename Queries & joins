@@ -1,0 +1,17 @@
+SELECT * FROM Users;
+SELECT * FROM Categories;
+SELECT * FROM Products;
+SELECT * FROM Orders;
+SELECT * FROM Order_Items;
+SELECT * FROM Payments;
+SELECT * FROM Shipping;
+SELECT * FROM Shopping_Cart;
+SELECT * FROM Reviews;
+SELECT * FROM Inventory;
+
+
+SELECT u.first_name, oi.quantity, p.amount
+FROM Payments p
+JOIN Orders o ON p.order_id = o.order_id
+JOIN Users u ON o.user_id = u.user_id
+JOIN Order_Items oi ON oi.order_id = o.order_id;
